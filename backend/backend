@@ -1,0 +1,7 @@
+resume-job-matcher
+├── backend
+│   ├── app.py
+│   ├── requirements.txt
+│   └── .env (optional)
+├── frontend
+└── README.md
