@@ -1,11 +1,8 @@
 from flask import Flask, jsonify
-import os
-from PyPDF2 import PdfReader
+from flask_cors import CORS  # <- Make sure this is here!
 
 app = Flask(__name__)
-
-UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+CORS(app)  # <- Allow cross-origin requests
 
 @app.route('/')
 def home():
@@ -13,20 +10,19 @@ def home():
 
 @app.route('/parse-resume', methods=['GET'])
 def parse_resume():
-    filename = 'rakesh_resume.pdf'
-    file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    resume_text = """
+RAKESH PRASAD B R
+7899224260 | rakeshprasadbr11@gmail.com
+LinkedIn: www.linkedin.com/in/rakesh-prasad-b-r-4a2942243 |
+GitHub: github.com/Rakeshprasad11
 
-    if not os.path.exists(file_path):
-        return jsonify({"error": "Resume not found"}), 404
-
-    reader = PdfReader(file_path)
-    text = ''
-    for page in reader.pages:
-        page_text = page.extract_text()
-        if page_text:
-            text += page_text + '\n'
-
-    return jsonify({"resume_text": text})
+SUMMARY :-
+Computer Science graduate with experience in data analytics and software development.
+Proven track record of improving data processing efficiency by 30% and developing machine
+learning models with 85% accuracy. Seeking a Data Analyst or Junior Developer position.
+...
+    """
+    return jsonify({"resume_text": resume_text})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
