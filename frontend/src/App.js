@@ -1,23 +1,35 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 function App() {
-  const [response, setResponse] = useState("");
+  const [resumeData, setResumeData] = useState(null);
+  const [error, setError] = useState('');
 
-  const handleClick = async () => {
+  const handleParseResume = async () => {
     try {
-      const res = await fetch("http://127.0.0.1:10000/parse-resume");
-      const data = await res.json();
-      setResponse(JSON.stringify(data, null, 2));
+      const response = await fetch("https://resume-job-matcher-backend.onrender.com/parse_resume");
+      const data = await response.json();
+
+      if (data.error) {
+        setError(data.error);
+        setResumeData(null);
+      } else {
+        setResumeData(data);
+        setError('');
+      }
     } catch (err) {
-      setResponse("❌ Error fetching resume data");
+      setError("Error fetching resume data");
+      setResumeData(null);
     }
   };
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h1>📄 Resume Parser Tester</h1>
-      <button onClick={handleClick}>Parse Resume</button>
-      <pre style={{ background: "#f4f4f4", padding: "1rem" }}>{response}</pre>
+    <div>
+      <h1>Resume Parser Tester</h1>
+      <button onClick={handleParseResume}>Parse Resume</button>
+      {error && <p style={{ color: 'red' }}>❌ {error}</p>}
+      {resumeData && (
+        <pre>{JSON.stringify(resumeData, null, 2)}</pre>
+      )}
     </div>
   );
 }

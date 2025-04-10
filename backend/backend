@@ -4,4 +4,4 @@ resume-job-matcher
 │   ├── requirements.txt
 │   └── .env
 ├── frontend
-└── README.md 
+└── README.md  
