@@ -1,9 +1,24 @@
+from flask import Flask, jsonify
+from flask_cors import CORS
+import os
+from PyPDF2 import PdfReader
+
+app = Flask(ResumeBot)
+CORS(app)
+
+UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+@app.route('/')
+def home():
+    return '✅ Flask app is working!'
+
 def extract_skills(text):
     lines = text.split('\n')
     skills = []
     for i, line in enumerate(lines):
         if "SKILLS" in line.upper():
-            skills = lines[i+1:i+4]  # change based on your resume
+            skills = lines[i+1:i+4]  # You can tweak the range
             break
     return '\n'.join(skills)
 
@@ -28,3 +43,6 @@ def parse_resume():
         "resume_text": text,
         "skills": skills
     })
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=10000)
