@@ -1,8 +1,8 @@
-from parser.extract import extract_summary, extract_education, extract_experience, extract_skills, extract_projects
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 import os
 from PyPDF2 import PdfReader
+
 from parser.extract import (
     extract_skills,
     extract_summary,
@@ -10,6 +10,9 @@ from parser.extract import (
     extract_experience,
     extract_projects
 )
+
+from parser.job_matcher import match_skills
+
 app = Flask(__name__)
 CORS(app)
 
@@ -49,6 +52,19 @@ def parse_resume():
         "experience": experience,
         "projects": projects
     })
+
+@app.route('/match-job', methods=['POST'])
+def match_job():
+    data = request.get_json()
+
+    resume_skills = data.get("resume_skills", "")
+    job_description = data.get("job_description", "")
+
+    if not resume_skills or not job_description:
+        return jsonify({"error": "Missing skills or job description"}), 400
+
+    result = match_skills(resume_skills, job_description)
+    return jsonify(result)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
