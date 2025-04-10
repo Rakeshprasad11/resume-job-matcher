@@ -1,9 +1,15 @@
+from parser.extract import extract_skills, extract_summary, extract_education, extract_experience, extract_projects
 from flask import Flask, jsonify
 from flask_cors import CORS
 import os
 from PyPDF2 import PdfReader
-
-from parser.extract import extract_skills, extract_education, extract_summary
+from parser.extract import (
+    extract_summary,
+    extract_skills,
+    extract_education,
+    extract_experience,
+    extract_projects
+)
 
 app = Flask(__name__)
 CORS(app)
@@ -30,15 +36,19 @@ def parse_resume():
         if page_text:
             text += page_text + '\n'
 
+    summary = extract_summary(text)
     skills = extract_skills(text)
     education = extract_education(text)
-    summary = extract_summary(text)
+    experience = extract_experience(text)
+    projects = extract_projects(text)
 
     return jsonify({
         "resume_text": text,
+        "summary": summary,
         "skills": skills,
         "education": education,
-        "summary": summary
+        "experience": experience,
+        "projects": projects
     })
 
 if __name__ == '__main__':
