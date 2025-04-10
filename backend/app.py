@@ -3,7 +3,7 @@ from flask_cors import CORS
 import os
 from PyPDF2 import PdfReader
 
-app = Flask(ResumeBot)
+app = Flask(__name__)
 CORS(app)
 
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
