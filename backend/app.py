@@ -1,8 +1,8 @@
 from flask import Flask, jsonify
-from flask_cors import CORS  # <- Make sure this is here!
+from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)  # <- Allow cross-origin requests
+CORS(app)  # 🔥 Important to allow frontend to access backend
 
 @app.route('/')
 def home():
@@ -21,7 +21,7 @@ Computer Science graduate with experience in data analytics and software develop
 Proven track record of improving data processing efficiency by 30% and developing machine
 learning models with 85% accuracy. Seeking a Data Analyst or Junior Developer position.
 ...
-    """
+"""
     return jsonify({"resume_text": resume_text})
 
 if __name__ == '__main__':
