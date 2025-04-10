@@ -1,16 +1,15 @@
-from parser.extract import extract_skills, extract_summary, extract_education, extract_experience, extract_projects
+from parser.extract import extract_summary, extract_education, extract_experience, extract_skills, extract_projects
 from flask import Flask, jsonify
 from flask_cors import CORS
 import os
 from PyPDF2 import PdfReader
 from parser.extract import (
-    extract_summary,
     extract_skills,
+    extract_summary,
     extract_education,
     extract_experience,
     extract_projects
 )
-
 app = Flask(__name__)
 CORS(app)
 

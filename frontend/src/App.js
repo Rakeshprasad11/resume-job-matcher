@@ -62,6 +62,24 @@ function App() {
               </pre>
             </div>
           )}
+
+          {resumeData.experience && (
+            <div>
+              <h3>🧪 Experience</h3>
+              <pre style={{ textAlign: 'left', whiteSpace: 'pre-wrap', background: "#fce4ec", padding: "10px" }}>
+                {resumeData.experience}
+              </pre>
+            </div>
+          )}
+
+          {resumeData.projects && (
+            <div>
+              <h3>💡 Projects</h3>
+              <pre style={{ textAlign: 'left', whiteSpace: 'pre-wrap', background: "#ede7f6", padding: "10px" }}>
+                {resumeData.projects}
+              </pre>
+            </div>
+          )}
         </div>
       )}
     </div>
