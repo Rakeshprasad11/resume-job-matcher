@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
 
 function App() {
+  const [response, setResponse] = useState("");
+
+  const handleClick = async () => {
+    try {
+      const res = await fetch("http://127.0.0.1:10000/parse-resume");
+      const data = await res.json();
+      setResponse(JSON.stringify(data, null, 2));
+    } catch (err) {
+      setResponse("❌ Error fetching resume data");
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ padding: "2rem" }}>
+      <h1>📄 Resume Parser Tester</h1>
+      <button onClick={handleClick}>Parse Resume</button>
+      <pre style={{ background: "#f4f4f4", padding: "1rem" }}>{response}</pre>
     </div>
   );
 }
