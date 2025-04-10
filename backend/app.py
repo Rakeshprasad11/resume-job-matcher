@@ -1,3 +1,4 @@
+from parser.extract import extract_skills, extract_summary
 from flask import Flask, jsonify
 from flask_cors import CORS
 import os
@@ -38,11 +39,11 @@ def parse_resume():
             text += page_text + '\n'
 
     skills = extract_skills(text)
+    summary = extract_summary(text)
 
     return jsonify({
         "resume_text": text,
-        "skills": skills
+        "skills": skills,
+        "summary": summary
     })
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000)
