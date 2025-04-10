@@ -36,11 +36,29 @@ function App() {
             {resumeData.resume_text}
           </pre>
 
+          {resumeData.summary && (
+            <div>
+              <h3>📝 Summary Extracted</h3>
+              <pre style={{ textAlign: 'left', whiteSpace: 'pre-wrap', background: "#fff3e0", padding: "10px" }}>
+                {resumeData.summary}
+              </pre>
+            </div>
+          )}
+
           {resumeData.skills && (
             <div>
               <h3>🛠️ Skills Extracted</h3>
               <pre style={{ textAlign: 'left', whiteSpace: 'pre-wrap', background: "#e8f5e9", padding: "10px" }}>
                 {resumeData.skills}
+              </pre>
+            </div>
+          )}
+
+          {resumeData.education && (
+            <div>
+              <h3>🎓 Education</h3>
+              <pre style={{ textAlign: 'left', whiteSpace: 'pre-wrap', background: "#e3f2fd", padding: "10px" }}>
+                {resumeData.education}
               </pre>
             </div>
           )}

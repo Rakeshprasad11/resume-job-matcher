@@ -1,8 +1,9 @@
-from parser.extract import extract_skills, extract_summary
 from flask import Flask, jsonify
 from flask_cors import CORS
 import os
 from PyPDF2 import PdfReader
+
+from parser.extract import extract_skills, extract_education, extract_summary
 
 app = Flask(__name__)
 CORS(app)
@@ -13,15 +14,6 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 @app.route('/')
 def home():
     return '✅ Flask app is working!'
-
-def extract_skills(text):
-    lines = text.split('\n')
-    skills = []
-    for i, line in enumerate(lines):
-        if "SKILLS" in line.upper():
-            skills = lines[i+1:i+4]  # You can tweak the range
-            break
-    return '\n'.join(skills)
 
 @app.route('/parse-resume', methods=['GET'])
 def parse_resume():
@@ -39,11 +31,15 @@ def parse_resume():
             text += page_text + '\n'
 
     skills = extract_skills(text)
+    education = extract_education(text)
     summary = extract_summary(text)
 
     return jsonify({
         "resume_text": text,
         "skills": skills,
+        "education": education,
         "summary": summary
     })
 
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=10000)
