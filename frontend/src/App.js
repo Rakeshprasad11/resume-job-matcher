@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 function App() {
   const [resumeData, setResumeData] = useState(null);
   const [error, setError] = useState('');
+  const [jobDescription, setJobDescription] = useState('');
+  const [matchResult, setMatchResult] = useState(null);
 
   const handleParseResume = async () => {
     try {
@@ -19,6 +21,26 @@ function App() {
     } catch (err) {
       setError("Error fetching resume data");
       setResumeData(null);
+    }
+  };
+
+  const handleMatchJob = async () => {
+    try {
+      const response = await fetch("https://resume-job-matcher-backend.onrender.com/match-job", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          resume_skills: resumeData?.skills || "",
+          job_description: jobDescription
+        })
+      });
+
+      const data = await response.json();
+      setMatchResult(data);
+    } catch (err) {
+      console.error("Matching failed", err);
     }
   };
 
@@ -78,6 +100,31 @@ function App() {
               <pre style={{ textAlign: 'left', whiteSpace: 'pre-wrap', background: "#ede7f6", padding: "10px" }}>
                 {resumeData.projects}
               </pre>
+            </div>
+          )}
+
+          {/* Match Job Section */}
+          <div style={{ marginTop: "30px" }}>
+            <h2>🧪 Match Resume to Job</h2>
+            <textarea
+              rows="6"
+              cols="60"
+              placeholder="Paste job description here..."
+              value={jobDescription}
+              onChange={(e) => setJobDescription(e.target.value)}
+              style={{ padding: "10px", fontFamily: "Arial" }}
+            />
+            <br />
+            <button onClick={handleMatchJob} style={{ marginTop: "10px" }}>
+              🎯 Match Resume with Job
+            </button>
+          </div>
+
+          {matchResult && (
+            <div style={{ marginTop: "20px" }}>
+              <h3>📊 Match Result</h3>
+              <p><strong>Match Percentage:</strong> {matchResult.match_percentage}%</p>
+              <p><strong>Matched Skills:</strong> {matchResult.matched_skills.join(', ')}</p>
             </div>
           )}
         </div>
