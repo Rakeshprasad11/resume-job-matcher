@@ -25,7 +25,6 @@ function App() {
   };
 
   const handleMatchJob = async () => {
-    // 🧪 Debug log for resume skills
     console.log("🛠️ Skills being sent:", resumeData?.skills);
 
     try {
@@ -106,7 +105,6 @@ function App() {
             </div>
           )}
 
-          {/* Match Job Section */}
           <div style={{ marginTop: "30px" }}>
             <h2>🧪 Match Resume to Job</h2>
             <textarea
@@ -124,27 +122,33 @@ function App() {
           </div>
 
           {matchResult && (
-  <div style={{ marginTop: "20px", background: "#e3f2fd", padding: "15px", borderRadius: "10px" }}>
-    <h3>📊 Match Result</h3>
-    <p>
-      <strong>Match Percentage:</strong>{' '}
-      <span style={{
-        color:
-          matchResult.match_percentage >= 70 ? 'green' :
-          matchResult.match_percentage >= 40 ? 'orange' : 'red',
-        fontWeight: "bold"
-      }}>
-        {matchResult.match_percentage}%
-      </span>
-    </p>
-    <p>
-      <strong>Matched Skills:</strong>{' '}
-      <span style={{ color: "#2e7d32" }}>
-        {matchResult.matched_skills.length > 0
-          ? matchResult.matched_skills.join(', ')
-          : 'None'}
-      </span>
-    </p>
-  </div>
-)}
+            <div style={{ marginTop: "20px", background: "#e3f2fd", padding: "15px", borderRadius: "10px" }}>
+              <h3>📊 Match Result</h3>
+              <p>
+                <strong>Match Percentage:</strong>{' '}
+                <span style={{
+                  color:
+                    matchResult.match_percentage >= 70 ? 'green' :
+                    matchResult.match_percentage >= 40 ? 'orange' : 'red',
+                  fontWeight: "bold"
+                }}>
+                  {matchResult.match_percentage}%
+                </span>
+              </p>
+              <p>
+                <strong>Matched Skills:</strong>{' '}
+                <span style={{ color: "#2e7d32" }}>
+                  {matchResult.matched_skills.length > 0
+                    ? matchResult.matched_skills.join(', ')
+                    : 'None'}
+                </span>
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
 
+export default App;
