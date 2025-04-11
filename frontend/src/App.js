@@ -25,6 +25,9 @@ function App() {
   };
 
   const handleMatchJob = async () => {
+    // 🧪 Debug log for resume skills
+    console.log("🛠️ Skills being sent:", resumeData?.skills);
+
     try {
       const response = await fetch("https://resume-job-matcher-backend.onrender.com/match-job", {
         method: 'POST',
