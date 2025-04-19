@@ -46,7 +46,7 @@ function App() {
 
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial' }}>
-      <h1>📄 Resume Parser Tester</h1>
+      <h1>🚀 Resume Job Matcher App</h1>
       <button onClick={handleParseResume}>🔍 Parse Resume</button>
 
       {error && <p style={{ color: 'red' }}>❌ {error}</p>}
