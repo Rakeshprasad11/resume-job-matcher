@@ -5,10 +5,27 @@ function App() {
   const [error, setError] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [matchResult, setMatchResult] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+  };
 
   const handleParseResume = async () => {
+    if (!selectedFile) {
+      setError('Please upload a resume file');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('resume', selectedFile);
+
     try {
-      const response = await fetch('https://resume-job-matcher-backend.onrender.com/parse-resume');
+      const response = await fetch('https://resume-job-matcher-backend.onrender.com/parse-resume', {
+        method: 'POST',
+        body: formData,
+      });
+
       const data = await response.json();
 
       if (data.error) {
@@ -19,7 +36,7 @@ function App() {
         setError('');
       }
     } catch (err) {
-      setError('Error fetching resume data');
+      setError('Error uploading resume');
       setResumeData(null);
     }
   };
@@ -47,6 +64,9 @@ function App() {
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial' }}>
       <h1>🚀 Resume Job Matcher App</h1>
+
+      <input type="file" accept=".pdf" onChange={handleFileChange} />
+      <br />
       <button onClick={handleParseResume}>🔍 Parse Resume</button>
 
       {error && <p style={{ color: 'red' }}>❌ {error}</p>}
